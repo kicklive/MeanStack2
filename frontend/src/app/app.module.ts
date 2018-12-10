@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatToolbarModule,MatFormFieldModule,MatInputModule,MatOptionModule,MatSelectModule,MatIconModule,MatButtonModule,MatCardModule,MatTableModule,MatDividerModule,MatSnackBarModule } from "@angular/material";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { HttpClientModule } from "@angular/common/http"
+import { ReactiveFormsModule } from "@angular/forms";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -24,6 +25,7 @@ import { IssueService } from "./issue.service";
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    ReactiveFormsModule,
     MatToolbarModule,
     MatFormFieldModule,
     MatInputModule,
@@ -36,7 +38,7 @@ import { IssueService } from "./issue.service";
     MatDividerModule,
     MatSnackBarModule
   ],
-  providers: [IssueService],
+  providers: [IssueService],//add service to make available to all components
   bootstrap: [AppComponent]
 })
 export class AppModule { }

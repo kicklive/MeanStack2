@@ -10,20 +10,35 @@ import { IssueService } from "../../issue.service";
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
-  issue:Issue[];
-  displauedColumns=['title','responsible','severity','status','action']
+  issues:Issue[];
+  displayedColumns=['title','responsibility','description','severity','status','actions']
   constructor(private issueService:IssueService,private router:Router) { }
 
   ngOnInit() {
-   
-
+    // this.issueService.getIssues().subscribe((issues)=>{
+    //   console.log("here1===>"+issues[0].title);
+    // });
+    this.fetchIssues();
   }
+
+  
   fetchIssues=()=>{
     this.issueService.getIssues().subscribe((data:Issue[])=>{
-      this.issue=data;
+      this.issues=data;
       console.log('Data requested...');
-      console.log(this.issue);
+      console.log(this.issues);
     })
+  };
+
+  editIssue(id){
+    this.router.navigate([`/edit/${id}`]);
   }
-;
-}
+
+  deleteIssue(id){
+    this.issueService.deletIssue(id).subscribe(()=>{
+      this.fetchIssues();
+    });
+  }
+};
+
+
