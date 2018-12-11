@@ -1,7 +1,9 @@
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import mongoose, { mongo } from 'mongoose';
+import mongoose, {
+    mongo
+} from 'mongoose';
 import Issue from './models/issue'
 //import config from './backend/config/config'[env];
 
@@ -11,7 +13,9 @@ const router = express.Router();
 
 app.use(cors());
 app.use(bodyParser.json());
-mongoose.connect('mongodb://localhost/Issues');
+mongoose.connect('mongodb://localhost/Issues', {
+    useNewUrlParser: true
+});
 const connection = mongoose.connection;
 
 //attach event listner. once because this is a one time event. 
@@ -44,6 +48,7 @@ router.route('/issues/:id').get((req, res) => {
 });
 router.route('/issues/add').post((req, res) => {
     let issue = new Issue(req.body);
+    // console.log("here=====>" + issue.title);
     issue.save().then(issue => {
         res.status(200).json({
             'issue': 'Added successfully'
@@ -52,8 +57,8 @@ router.route('/issues/add').post((req, res) => {
         res.status(400).send('Failed to create new record');
     });
 });
-router.route('/issues/update/:id').post((req, res) => {
-    Issue.findById(req.param.id, (err, issue) => {
+router.route('/issues/update/:id').post((req, res, next) => {
+    Issue.findById(req.params.id, (err, issue) => {
         if (!issue) {
             return next(new Error('Could not load document'));
         } else {
@@ -70,30 +75,19 @@ router.route('/issues/update/:id').post((req, res) => {
             });
         }
     });
-
-    router.route('issue/delete/:id').get((req, res) => {
-        Issue.findByIdAndRemove({
-            _id: req.param.id
-        }, (err, issue) => {
-            if (err) {
-                res.json(err);
-            } else {
-                res.json('Remove successfully');
-            }
-        })
-    });
-
-
-    let issue = new Issue(req.body);
-    issue.save().then(issue => {
-        res.status(200).json({
-            'issue': 'Added successfully'
-        });
-    }).catch(err => {
-        res.status(400).send('Failed to create new record');
-    });
 });
 
+router.route('/issues/delete/:id').get((req, res) => {
+    Issue.findByIdAndRemove({
+        _id: req.params.id
+    }, (err, issue) => {
+        if (err) {
+            res.json(err);
+        } else {
+            res.json('Remove successfully');
+        }
+    })
+});
 app.use('/', router);
 
 //app.get('/', (req, res) => res.send('Hello world'));

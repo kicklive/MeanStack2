@@ -19,8 +19,8 @@ uri='http://localhost:4000';
   addIssue(title,responsible,descripton,severity){
     const issue={
       title:title,
-      responsible:responsible,
-      descripton:descripton,
+      responsibility:responsible,
+      description:descripton,
       severity:severity
     };
     return this.http.post(`${this.uri}/issues/add`,issue);
@@ -29,8 +29,8 @@ uri='http://localhost:4000';
   updateIssue(id,title,responsible,descripton,severity,status){
     const issue={
       title:title,
-      responsible:responsible,
-      descripton:descripton,
+      responsibility:responsible,
+      description:descripton,
       severity:severity,
       status:status
     };
