@@ -1,7 +1,7 @@
 export interface Issue{
     id:String;
     title:String;
-    responsible:String;
+    responsibility:String;
     description:String;
     severity:String;
     status:String
